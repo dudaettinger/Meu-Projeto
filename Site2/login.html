@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step Up - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <h1 class="cabecalho-titulo">Step-Up</h1>
+
+        <nav class="cabecalho-menu">
+            <a class="cabecalho-menu-item" href="index.html">Incial </a>
+            <a class="cabecalho-menu-item">|</a>
+            <a class="cabecalho-menu-item">Login</a>
+            <a class="cabecalho-menu-item" href="cadastro.html" >Cadastro</a>
+
+        </nav>
+
+    </header>
+
+    <main>
+
+        <img class="seta-login" src="img/seta2.png" onclick="voltarPagina()"  alt="seta para voltar para o index">
+
+        <section class="pagina-secundaria">
+
+            <img class="imagem-login" src="img/iconlogin.png" alt="icone-login">
+
+            <h2 class="pagina-secundaria-login">LOGIN</h2>
+
+            <div id="principal" class="pagina-secundaria-caixa-formulario">
+            
+                <br>
+               
+                <div class="pagina-secundaria-campo">
+                    <label class="pagina-secundaria-texto-input" for="email">E-mail:</label>
+                    <input class="pagina-secundaria-input-campo" type="email" id="in_email" placeholder="meuemail@gmail.com">
+                </div>
+                <div class="pagina-secundaria-campo">
+                    <label class="pagina-secundaria-texto-input" for="senha">Senha: </label>
+                    <input class="pagina-secundaria-input-campo" type="password" id="in_senha" placeholder="*********">
+                </div>
+
+                <br> <br>
+
+                <a id="login_link" href="usuario.html">
+                    <button class="pagina-secundaria-botao" onclick="login()">
+                        Entrar
+                    </button>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>
