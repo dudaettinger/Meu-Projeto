@@ -18,7 +18,8 @@ body {
 .seta-cadastro {
     width: 70px;
     margin-left: 30px;
-    margin-top: 30px;
+    margin-top: 10px;
+    position: absolute;
 }
 
 .imagem-cadastro{
@@ -29,7 +30,8 @@ body {
 }
 
 .pagina-principal {
-    margin-bottom: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     width: 35%;
     background-color: #f0ecec;
     padding: 35px;
