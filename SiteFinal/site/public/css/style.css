@@ -1,0 +1,486 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Sarala&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+
+}
+
+body {
+    font-size: 100%;
+    background: #2b0504;
+}
+
+.cabecalho-titulo {
+    color: #2b0504;
+    font-weight: 500;
+    text-shadow: 0 0 5px #470906;
+    font-family: 'Sarala', sans-serif;
+   margin-right: 250px;
+}
+
+/* HEADER */
+
+.cabecalho {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-around; */
+    background-color: #f0ecec;
+    padding: 20px;
+    width: 100vw;
+    max-width: 100%;
+}
+
+.cabe-1 {
+    width: 20vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.cabe-2 {
+    gap: 20px;
+    width: 75vw;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cabecalho-menu {
+    display: flex;
+    align-items: center;
+    /* font-size: larger; */
+    /* gap: 36px;  */
+}
+
+.cabecalho-menu-item {
+    font-family: 'Sarala', sans-serif;
+    color: #290e0d;
+    font-weight: 400;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.text-logo {
+    color: #2b0504;
+    font-weight: 500;
+    text-shadow: 0 0 5px #470906;
+    font-family: 'Sarala', sans-serif;
+}
+
+.imagem-logo{
+    width: 20%;
+    /* margin-right: 500px; */
+}
+
+/* MAIN */
+/* primeira sessão */
+.conteudo {
+    border-top: 0.4px solid black;
+}
+
+.conteudo-principal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.conteudo-principal-escrito {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+
+}
+
+.conteudo-principal-subtitulo {
+    font-weight: 400;
+    font-size: 30px;
+    color: white;
+    margin-right: 30px;
+    font-family: 'Kanit', sans-serif;
+}
+
+
+
+.conteudo-principal-botao {
+    background-color: #ECD6C4;
+    width: 150px;
+    height: 60px;
+    border: none;
+    box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    color: #2F2325;
+    margin-right: 200px;
+    font-family: 'Sarala', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-left: 60px;
+}
+
+.conteudo-principal-botao:hover {
+    background-color: rgba(236, 214, 196, 0.53);
+}
+
+.conteudo-principal-audio{
+    width: 220px;
+    margin-left: 25px;
+}
+
+.frase {
+    text-shadow: 0 0 3px white;
+}
+
+.conteudo-principal-imagem {
+    width: 350px;
+    margin-top: 40px;
+    margin-right: 10px;
+
+}
+
+/*CARROSEL*/
+
+
+.slider {
+    margin: 0 auto;
+    width: 800px;
+    height: 400px;
+    overflow: hidden;
+    /* comando que faz com que apenas uma imagem apareça de cada vez*/
+}
+
+.slides {
+    width: 400%;
+    height: 400px;
+    display: flex;
+}
+
+.slides input {
+    display: none;
+}
+
+.slide {
+    width: 25%;
+    position: relative;
+    transition: 2s;
+    border-radius: 30px;
+}
+
+.slide img {
+    width: 550px;
+    margin-left: 40px;
+    margin-top: 40px;
+
+}
+
+.manual-navegation {
+    position: absolute;
+    width: 600px;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.manual-btn {
+    border: 2px solid #fff;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+    border-radius: 30px;
+}
+
+.manual-btn:not(:last-child) {
+    margin-right: 40px;
+}
+
+.manual-btn:hover {
+    background-color: #f0ecec;
+}
+
+#radio1:checked~.first {
+    margin-left: 0;
+}
+
+#radio2:checked~.first {
+    margin-left: -25%;
+}
+
+#radio3:checked~.first {
+    margin-left: -50%;
+}
+
+#radio4:checked~.first {
+    margin-left: -75%;
+}
+
+.navegation-auto div {
+    border: 2px solid #20a6ff;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.navegation-auto {
+    position: absolute;
+    width: 600px;
+    margin-top: 360px;
+    display: flex;
+    justify-content: center;
+}
+
+.navegation-auto div:not(:last-child) {
+    margin-right: 40px;
+}
+
+#radio1:checked~.navegation-auto .autobtn1 {
+    background-color: #fff;
+}
+
+#radio2:checked~.navegation-auto .autobtn2 {
+    background-color: #fff;
+}
+
+#radio3:checked~.navegation-auto .autobtn3 {
+    background-color: #fff;
+}
+
+#radio4:checked~.navegation-auto .autobtn4 {
+    background-color: #fff;
+}
+
+/* segunda sessão*/
+
+.conteudo-secundario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-top: 48px;
+    background-color: #f0ecec;
+    color: #290e0d;
+    padding: 30px;
+}
+
+.conteudo-secundario {
+    border-top: 0.4px solid #000000
+}
+
+.conteudo-secundario-titulo {
+    padding-top: 30px;
+    font-family: 'Sarala', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    font-weight: bolder;
+    color: #2e1907;
+    text-shadow: 0 0 2px #774a26;
+    margin-bottom: 16px;
+    border-bottom: 0.4px solid #000000
+}
+
+.conteudo-secundario-texto {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #2b0504;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.conteudo-secundario-texto-2 {
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    color: #2e1907;
+    margin-left: 30px;
+    margin-right: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bolder;
+    width: 50%;
+}
+
+.conteudo-secundario-video {
+    width: 50%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+
+}
+
+/*terceira sessão*/
+
+.conteudo-terciario {
+    
+    border-top: 0.4px solid #000000;
+    background-color: #f0ecec;
+    padding-top: 30px;
+    display: flex;
+    padding: 30px;
+
+}
+
+
+.conteudo-terciario-nome {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: #2b0504;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 30px;
+    margin-bottom: 5%;
+    font-weight: bolder;
+
+}
+
+.conteudo-terciario-principal-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.conteudo-terciario-titulo {
+    font-family: 'Sarala', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    font-weight: bolder;
+    color: #2e1907;
+    text-shadow: 0 0 2px #774a26;
+    margin-bottom: 25px;
+}
+
+.conteudo-terciario-texto {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: #2b0504;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 30px;
+
+}
+
+.conteudo-terciario-imagem {
+    width: 500px;
+
+}
+
+.conteudo-terciario-titulo {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    border-bottom: 0.4px solid #000000;
+}
+
+.conteudo-terciario-video{
+    width: 250px;
+    margin-left: 20px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+   
+}
+
+/* quarta sessão */
+
+.conteudo-quarternario {
+      
+       
+    border-top: 0.4px solid #000000;
+    background-color: #f0ecec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 50px;
+}
+
+
+.conteudo-quartenario-imagem {
+    width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.conteudo-quartenario-titulo {
+    margin-top: 20px;
+    text-align: center;
+    color: #2b0504;
+    font-weight: 500;
+    font-family: 'Sarala', sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.conteudo-quartenario-texto {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color:#2b0504 ;
+   
+}
+
+.conteudo-quartenario-caixa {
+    border: black solid 1px;
+    box-shadow: 7px 3px 3px #2b0504;
+    background-color: #f0ecec;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 30px;
+}
+
+/* FOOTER */
+
+.rodape {
+    background: #2b0504;
+    border-top: 0.4px solid #000000;
+
+}
+
+.rodape-imagem {
+    height: 200px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.card_erro {
+    display: none;
+    background-color: #f0ecec;
+    color: #2b0504;
+    width: 230px;
+    position: absolute;
+    border-radius: 4px;
+    border:  3px solid #2b0504;
+    box-shadow: 10px 10px 10px 5px black;
+    padding: 10px;
+    margin-right: 70%;
+    margin-top: 20%;
+  }
+  
+  .card_erro #mensagem_erro{
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  .card_erro #mensagem_erro{
+    font-weight: 500;
+    font-size: 20px;
+  }

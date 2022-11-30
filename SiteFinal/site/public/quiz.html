@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Step Up - Quiz</title>
+
+
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/usuario.css">
+
+</head>
+
+<body>
+    <main>
+        <div class="conteudo-principal-usuario">
+
+            <img class="conteudo-principal-imagem" src="assets/imgs/breakdance (2).png" alt="Icon Usuario">
+
+            <h1 class="conteudo-principal-titulo">Step Up</h1>
+
+
+            <h4 class="conteudo-principal-subtitulo">Olá,<span id="b_usuario">usuário</span>!</h4>
+
+            <div class="conteudo-principal-botoes">
+                <a href="usuario.html"><button class="conteudo-secundario-botao">Looks</button></a>
+                <a href="quiz.html"  onclick="verificarTentativasQuiz()"><button class="conteudo-secundario-botao" onclick="verificarTentativasQuiz()">Quiz</button></a>
+                
+
+                <button class="conteudo-secundario-ultimobotao" onclick="limparSessao()">
+                    Sair
+                </button>
+            </div>
+        </div>
+
+        <div class="tela-principal-quiz">
+
+            <h1 class="tela-principal-titulo-quiz">Street Dance</h1>
+
+            <article class='centro' id='instrucoes'>
+                Leia a questão e clique na resposta correta
+            </article>
+
+            <article class='questoes'>
+
+                <header class='questao'>
+                    <span id='numQuestao'></span>
+                    <h2 id='pergunta'></h2>
+                </header>
+
+                <div class='corpo'>
+                    <ol type='A' id='alternativas'>
+                        <li id='a' value='1A' class='respostas' onClick='verificarSeAcertou(this, this)'></li>
+                        <li id='b' value='1B' class='respostas' onClick='verificarSeAcertou(this, this)'></li>
+                        <li id='c' value='1C' class='respostas' onClick='verificarSeAcertou(this, this)'></li>
+                        <li id='d' value='1D' class='respostas' onClick='verificarSeAcertou(this, this)'></li>
+                    </ol>
+                </div>
+            </article>
+
+            <article id='aviso'>Questão <span id='numero'></span> de <span id='total'></span></article>
+
+        </div>
+
+    </main>
+</body>
+
+<!-- JS externo -->
+<script src="js/quiz.js"></script>
+<script src="js/funcoes.js"></script>
+
+<script>
+    verificar()
+</script>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Step Up - Usuário</title>
+
+
+  <link rel="stylesheet" href="css/usuario.css">
+
+</head>
+
+<body onload="pegarDadosGrafico1(), pegarDadosGrafico2()">
+  <main>
+
+
+    <div  class="conteudo-principal-usuario">
+
+      <img class="conteudo-principal-imagem" src="assets/imgs/breakdance (2).png" alt="Icon Usuario">
+
+      <h1 class="conteudo-principal-titulo">Step Up</h1>
+
+
+      <h4 class="conteudo-principal-subtitulo">Olá,<span id="b_usuario">usuário</span>!</h4>
+
+      <div class="conteudo-principal-botoes">
+        <a href=""><button class="conteudo-secundario-botao">Looks</button></a>
+        <a href="quiz.html"><button class="conteudo-secundario-botao" onclick="verificarTentativasQuiz()">Quiz</button></a>
+        
+
+        <button class="conteudo-secundario-ultimobotao" onclick="limparSessao()">
+          Sair
+        </button>
+
+      </div>
+    </div>
+
+
+    <div class="conteudo-secundario-usuario">
+
+    
+      <h3 class="conteudo-secundario-usuario-titulo-principal"> <p class="conteudo-secundario-usuario-titulo-principal2">Inspirações de Looks Street Dance</p> <br> Escolha um Look que você mais gostou !!</h3>
+      <p class="conteudo-secundario-usuario-subtitulo-principal"><b>Instrução:</b> para escolher um <b
+          class="roupa-escolhida">Look</b> basta clicar em sua plaquinha ex:(Look1)</p>
+
+      <h2 class="conteudo-secundario-titulo">Looks Femininos</h2>
+      <div class="conteudo-secundario-painel">
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/lookF1.jpg">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(1)">Look 1</button>
+        </section>
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/lookF2.jpg">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(2)">Look 2</button>
+        </section>
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/lookF3.jpg">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(3)">Look 3</button>
+        </section>
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/lookF4.jpg">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(4)">Look 4</button>
+        </section>
+      </div>
+      <h2 class="conteudo-secundario-titulo2">Looks Masculinos</h2>
+      <div class="conteudo-secundario-painel">
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/Look1M.png">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(5)">Look 5</button>
+        </section>
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/Look2M.png">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(6)">Look 6</button>
+        </section>
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/Look3M.jpg">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(7)">Look 7</button>
+        </section>
+        <section class="produto">
+          <img class="conteudo-secundario-imagem" src="assets/imgs/Look4M.jpg">
+          <button class="conteudo-secundario-botao" id="verificar_look" onclick="cadastrarVoto(8)">Look 8</button>
+        </section>
+      </div>
+      </section>
+
+      <div class="container_setor dois">
+        <div id="resultado_setor1" class="setor2">
+          <canvas id="myChart" class="grafico_dash1"></canvas>
+
+        </div>
+        <div id="resultado_setor2" class="setor2">
+          <canvas id="myChart2" class="grafico_dash2"></canvas>
+        </div>
+
+      </div>
+
+
+  </main>
+</body>
+
+<script src="js/funcoes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+
+  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+  function verificar() {
+        var idUsuarioVar = sessionStorage.ID_USUARIO;
+        fetch("/usuarios/autenticarTentativa", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuarioServer: idUsuarioVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                  sessionStorage.TENTATIVAS_USUARIO = json.qtd_tentativas;
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+    
+    verificar()
+  function cadastrarVoto(idLook) {
+
+    fetch("/usuarios/cadastrar-voto", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fkLookServer: idLook,
+        idUsuarioServer: sessionStorage.getItem("ID_USUARIO")
+      })
+    })
+      .then(function (resultado) {
+        alert('VOTO CADASTRADO')
+        location.reload()
+
+      })
+      .catch(function (erro) {
+        console.error(erro);
+      })
+  }
+
+  // MEUS GRÁFICOS
+
+
+  // const labels1 = [
+  //   'Look-1',
+  //   'Look-2',
+  //   'Look-3',
+  //   'Look-4',
+
+  // ];
+
+  // const data1 = {
+  //   labels: labels1,
+  //   datasets: [{
+  //     label: 'LOOKS FEMININOS',
+  //     backgroundColor: '#bab7d7',
+  //     borderColor: '#bab7d7',
+  //     data: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300],
+  //   }]
+  // };
+
+
+  // const labels2 = [
+  //   'Look-1',
+  //   'Look-2',
+  //   'Look-3',
+  //   'Look-4',
+
+  // ];
+
+  // const data2 = {
+  //   labels: labels2,
+  //   datasets: [{
+  //     label: 'LOOKS MASCULINOS',
+  //     backgroundColor: '#b0c4de',
+  //     borderColor: '#b0c4de',
+  //     data: [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300],
+  //   }],
+  // };
+
+  // const config1 = {
+  //   type: 'bar',
+  //   data: data1,
+  //   options: {
+  //     color: 'black',
+  //     responsive: true,
+  //     scales: {
+  //       y: {
+  //         ticks: { color: 'black', beginAtZero: true }
+  //       },
+  //       x: {
+  //         ticks: { color: 'black', beginAtZero: true }
+  //       }
+  //     }
+  //   }
+  // };
+
+
+  // const config2 = {
+  //   type: 'bar',
+  //   data: data2,
+  //   options: {
+  //     color: 'black',
+  //     responsive: true,
+  //     scales: {
+  //       y: {
+  //         ticks: { color: 'black', beginAtZero: true }
+  //       },
+  //       x: {
+  //         ticks: { color: 'black', beginAtZero: true }
+  //       }
+  //     }
+  //   }
+  // };
+
+  // const resultado_setor1 = new Chart(
+  //   document.getElementById('grafico1'),
+  //   config1
+  // );
+
+  // const resultado_setor2 = new Chart(
+  //   document.getElementById('grafico2'),
+  //   config2
+  // );
+
+
+  const myChart = new Chart(resultado_setor1, config1);
+
+  function pegarDadosGrafico1() {
+
+    fetch('/medidas/buscarVotosFeminino', {
+      cache: 'no-store',
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then((resposta) => {
+        if (resposta.ok) {
+          resposta.json()
+            .then(json => {
+              console.log(JSON.stringify(json));
+              plotarGrafico1(json);
+            })
+            .catch((erro) => {
+              console.log(erro);
+            })
+
+        }
+      })
+      .catch((erro) => {
+        console.log(erro);
+      })
+
+  }
+
+  function pegarDadosGrafico2() {
+
+    fetch('/medidas/buscarVotosMasculino', {
+      cache: 'no-store',
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then((resposta) => {
+        if (resposta.ok) {
+          resposta.json()
+            .then(json => {
+              console.log(JSON.stringify(json));
+              plotarGrafico2(json);
+            })
+            .catch((erro) => {
+              console.log(erro);
+            })
+
+        }
+      })
+      .catch((erro) => {
+        console.log(erro);
+      })
+
+  }
+
+  function plotarGrafico1(resposta) {
+    console.log('iniciando plotagem do gráfico...');
+
+    // Criando estrutura para plotar gráfico - labels
+    let labels = [];
+
+    // Criando estrutura para plotar gráfico - dados
+    let dados = {
+      labels: labels,
+      datasets: [{
+        label: 'Inspirações de Looks Femininos',
+        data: [],
+        fill: false,
+        backgroundColor: '#946a69',
+        borderColor: '#946a69',
+        tension: 0.1
+      }]
+    };
+
+    // Inserindo valores recebidos em estrutura para plotar o gráfico
+    for (i = 0; i < resposta.length; i++) {
+      var registro = resposta[i];
+      labels.push(registro.descricao);
+      dados.datasets[0].data.push(registro.quantidade);
+    }
+
+    console.log('----------------------------------------------')
+    console.log('O gráfico será plotado com os respectivos valores:')
+    console.log('Labels:')
+    console.log(labels)
+    console.log('Dados:')
+    console.log(dados.datasets)
+    console.log('----------------------------------------------')
+
+    // Criando estrutura para plotar gráfico - config
+    const config = {
+      type: 'bar',
+      data: dados,
+      options: {
+      color: 'black',
+      responsive: true,
+      scales: {
+        y: {
+          ticks: { color: 'black', beginAtZero: true }
+        },
+        x: {
+          ticks: { color: 'black', beginAtZero: true }
+        }
+      }
+    }
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  }
+
+  function plotarGrafico2(resposta) {
+    console.log('iniciando plotagem do gráfico...');
+
+    // Criando estrutura para plotar gráfico - labels
+    let labels = [];
+
+    // Criando estrutura para plotar gráfico - dados
+    let dados = {
+      labels: labels,
+      datasets: [{
+        label: 'Inspirações de Looks Masculinos',
+        data: [],
+        fill: false,
+        backgroundColor: '#946a69',
+        borderColor: 'black',
+        tension: 0.1
+      }]
+    };
+
+    // Inserindo valores recebidos em estrutura para plotar o gráfico
+    for (i = 0; i < resposta.length; i++) {
+      var registro = resposta[i];
+      labels.push(registro.descricao);
+      dados.datasets[0].data.push(registro.quantidade);
+    }
+
+    console.log('----------------------------------------------')
+    console.log('O gráfico será plotado com os respectivos valores:')
+    console.log('Labels:')
+    console.log(labels)
+    console.log('Dados:')
+    console.log(dados.datasets)
+    console.log('----------------------------------------------')
+
+    // Criando estrutura para plotar gráfico - config
+    const config = {
+      type: 'bar',
+      data: dados,
+      options: {
+      color: 'black',
+      responsive: true,
+      scales: {
+        y: {
+          ticks: { color: 'black', beginAtZero: true }
+        },
+        x: {
+          ticks: { color: 'black', beginAtZero: true }
+        }
+      }
+    }
+
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let myChart = new Chart(
+      document.getElementById('myChart2'),
+      config
+    );
+  }
+
+  function verificarTentativasQuiz() {
+        var idUsuarioVar = sessionStorage.ID_USUARIO;
+        fetch("/usuarios/autenticarTentativa", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuarioServer: idUsuarioVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                  sessionStorage.TENTATIVAS_USUARIO = json.qtd_tentativas;
+                  if (Number(sessionStorage.TENTATIVAS_USUARIO) > 0 ) {
+                    alert('Você ja tentou realizar esse quiz !! O quiz permite somente uma tentativa.')
+                    window.location = "./usuario.html";
+                  } 
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+
+
+</script>

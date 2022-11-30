@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step Up - Login</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+            <nav class="cabecalho-menu"   >
+                <div class="cabe-1">
+                    <img class="imagem-logo" src="assets/imgs/breakdance (2).png" alt="Logo">
+                    <h1 class="text-logo">Step-Up</h1>
+                </div>
+                <div class="cabe-2">
+                    <a class="cabecalho-menu-item" href="index.html">Inicial </a>
+                    <a class="cabecalho-menu-item">|</a>
+                    <a class="cabecalho-menu-item" href="cadastro.html">Cadastro</a>
+                    <a class="cabecalho-menu-item">|</a>
+                    <a class="cabecalho-menu-item" href="login.html">Login</a>
+                </div>
+            </nav>
+
+    </header>
+
+    <main>
+        <div class="pagina-principal">
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
+
+        <img class="seta-login" src="assets/imgs/seta2.png" onclick="voltarPagina()"  alt="seta para voltar para o index">
+
+        <section class="pagina-secundaria">
+
+            <img class="imagem-login" src="assets/imgs/iconlogin.png" alt="icone-login">
+
+            <h2 class="pagina-secundaria-login">LOGIN</h2>
+
+            <div id="principal" class="pagina-secundaria-caixa-formulario">
+            
+                <br>
+               
+                <div class="pagina-secundaria-campo">
+                    <label class="pagina-secundaria-texto-input" for="email">E-mail:</label>
+                    <input class="pagina-secundaria-input-campo" type="email" id="email_input" placeholder="meuemail@gmail.com">
+                </div>
+                <div class="pagina-secundaria-campo">
+                    <label class="pagina-secundaria-texto-input" for="senha">Senha: </label>
+                    <input class="pagina-secundaria-input-campo" type="password" id="senha_input" placeholder="*********">
+                </div>
+
+                <br> <br>
+
+               
+                    <button class="pagina-secundaria-botao" onclick="entrar()">
+                        Entrar
+                    </button>
+             
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+</body>
+
+</html>
+
+
+<script src="js/login.js"></script>
+<script src="js/funcoes.js"></script>
+
+<script>
+
+
+    function entrar() {
+       //  aguardar();
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+           //finalizarAguardar();
+           // return false;
+        }
+         else {
+            setInterval(sumirMensagem, 5000)
+         }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.idUsuario;
+
+                    setTimeout(function () {
+                        window.location = "./usuario.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                   // finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script>
