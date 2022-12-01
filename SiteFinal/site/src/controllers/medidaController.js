@@ -8,7 +8,7 @@ function buscarVotosFeminino(req, res) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
-                res.status(204).send("Nenhum resultado encontrado!")
+                res.status(204).send("Nenhuma esperiência por aqui :(")
             }
         }).catch(function (erro) {
             console.log(erro);
@@ -27,7 +27,7 @@ function buscarVotosMasculino(req, res) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
-                res.status(204).send("Nenhum resultado encontrado!")
+                res.status(204).send("do encontrado!")
             }
         }).catch(function (erro) {
             console.log(erro);

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="Pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Step Up - mural</title>
+    
+    
+        <link rel="stylesheet" href="css/mural.css">
+        <link rel="stylesheet" href="css/usuario.css">
+    
+    </head>
+    
+    <body onload="validarSessao(), atualizarFeed()">
+        <main>
+            <div class="conteudo-principal-usuario">
+    
+                <img class="conteudo-principal-imagem" src="assets/imgs/breakdance (2).png" alt="Icon Usuario">
+    
+                <h1 class="conteudo-principal-titulo">Step Up</h1>
+    
+    
+                <h4 class="conteudo-principal-subtitulo">Olá,<span id="b_usuario">usuário</span>!</h4>
+    
+                <div class="conteudo-principal-botoes">
+                    <a href="usuario.html"><button class="conteudo-secundario-botao">Looks</button></a>
+                    <a href="quiz.html"  onclick="verificarTentativasQuiz()"><button class="conteudo-secundario-botao" onclick="verificarTentativasQuiz()">Quiz</button></a>
+                    <a href="mural.html"><button class="conteudo-secundario-botao">Mural</button></a>
+    
+                    <button class="conteudo-secundario-ultimobotao" onclick="limparSessao()">
+                        Sair
+                    </button>
+                </div>
+            </div>
+
+            <div class="dash-right">
+            <div class="avisos">
+
+                <div class="container2">
+                <h1 class="indicar">Experiências com a Dança</h1>
+
+                    <div class="div-form">
+                        <form id="form_postagem" method="post" onsubmit="return publicar()">
+
+                            <label class="titulo-mural">
+                                Estilo de dança:
+                                <br>
+                                <input  name="titulo" id="titulo" maxlength="100" type="text">
+                            </label>
+
+                            <br>
+                            <label class="titulo-mural">
+                                Descrição (máximo de 250 caracteres):
+                                <br>
+                                <textarea class="caixa-mural" name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
+                            </label>
+
+                            <br>
+                            <button class="botao-mural">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            
+
+                        <div class="div-results">
+                        <h1 class="mural">Veja as experiências de outras pessoas :</h1> <br>
+
+                        <div id="feed_container" class="feed-container"></div>
+
+                        <!--<div id="divPublicacao"></div>
+                        <span id="spanID"></span>
+                        <span id="spanTitulo"></span>
+                        <span id="spanNome"></span>
+                        <div id="divDescricao"></div>
+                        <div id="divButtons"></div>
+                        <button id="btnEditar"></button>
+                        <button id="btnDeletar"></button>-->
+
+                        </div>
+
+                    </div>
+                </div>
+    
+
+
+</main>
+</body>
+</html>
+
+<script src="js/funcoes.js"> </script>
+
+<script>
+   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+    function limparFormulario() {
+        document.getElementById("form_postagem").reset();
+    }
+
+    function publicar() {
+        var idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+        var corpo = {
+            titulo: titulo.value,
+            descricao: textarea_descricao.value
+        }
+
+        //if (titulo == "" || descricao == ""){
+        //    window.alert("Post feito pelo usuario de ID: " + idUsuario + "foi negado. Campos em branco!");
+        //    limparFormulario();
+        //} else {
+
+        fetch(`/avisos/publicar/${idUsuario}`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(corpo)
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
+                window.location = "mural.html";
+                limparFormulario();
+                atualizarFeed();
+                //finalizarAguardar();
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            //finalizarAguardar();
+        });
+
+        return false;
+    }
+    
+
+    function editar(idAviso) {
+        sessionStorage.ID_POSTAGEM_EDITANDO = idAviso;
+        console.log("cliquei em editar - " + idAviso);
+        window.alert("Você será redirecionado à página de edição do aviso de id número: " + idAviso);
+        //window.location = "mural.html"
+
+    }
+
+    function deletar(idAviso) {
+        console.log("Criar função de apagar post escolhido - ID" + idAviso);
+        fetch(`/avisos/deletar/${idAviso}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location = "mural.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function atualizarFeed() {
+        //aguardar();
+        fetch("/avisos/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhuma esperiência por aqui :("
+                    feed.appendChild(mensagem);
+                    throw "Nenhuma esperiência por aqui :(";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = "";
+                    for (var i = 0; 
+                    i < resposta.length; 
+                    i++) {
+                        var publicacao = resposta[i];
+
+                        // criando e manipulando elementos do HTML via JavaScript
+                        var divPublicacao = document.createElement("div");
+                        var spanID = document.createElement("span");
+                        var spanTitulo = document.createElement("span");
+                        var spanNome = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+                        var divButtons = document.createElement("div");
+                        var btnDeletar = document.createElement("button");
+
+
+                        spanID.innerHTML = "ID: <b>" + publicacao.idAviso + "</b>";
+                        spanTitulo.innerHTML = "Estilo da Dança: <b>" + publicacao.titulo + "</b>";
+                        spanNome.innerHTML = "Dançarino: <b>" + publicacao.nome + "</b>";
+                        divDescricao.innerHTML = "Esperiências: <b>" + publicacao.descricao + "</b>";
+                        btnDeletar.innerHTML = "Deletar";
+
+                        divPublicacao.className = "publicacao";
+                        spanTitulo.id = "inputNumero" + publicacao.idAviso;
+                        spanNome.className = "publicacao-nome";
+                        spanTitulo.className = "publicacao-titulo";
+                        divDescricao.className = "publicacao-descricao";
+
+                        divButtons.className = "div-buttons"       
+
+                        btnDeletar.className = "publicacao-btn-editar"
+                        btnDeletar.id = "btnDeletar" + publicacao.idAviso;
+                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idAviso})`);
+
+                        divPublicacao.appendChild(spanID);
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divPublicacao.appendChild(divButtons);
+                        divButtons.appendChild(btnDeletar);
+                        feed.appendChild(divPublicacao);
+                    }
+
+                    //finalizarAguardar();
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+            //finalizarAguardar();
+        });
+    }
+
+    function testar() {
+        //aguardar();
+
+        var formulario = new URLSearchParams(new FormData(document.getElementById("form_postagem")));
+
+        var divResultado = document.getElementById("div_feed");
+
+        divResultado.appendChild(document.createTextNode(formulario.get("descricao")));
+        divResultado.innerHTML = formulario.get("descricao");
+
+        //finalizarAguardar();
+
+        return false;
+    }
+</script>
+

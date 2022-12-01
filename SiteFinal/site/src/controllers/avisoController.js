@@ -10,7 +10,7 @@ function listar(req, res) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
-            res.status(204).send("Nenhum resultado encontrado!")
+            res.status(204).send("")
         }
     }).catch(function (erro) {
         console.log(erro);
@@ -28,7 +28,7 @@ function listarPorUsuario(req, res) {
                 if (resultado.length > 0) {
                     res.status(200).json(resultado);
                 } else {
-                    res.status(204).send("Nenhum resultado encontrado!");
+                    res.status(204).send("Nenhuma esperiência por aqui :(");
                 }
             }
         )
@@ -53,7 +53,7 @@ function pesquisarDescricao(req, res) {
                 if (resultado.length > 0) {
                     res.status(200).json(resultado);
                 } else {
-                    res.status(204).send("Nenhum resultado encontrado!");
+                    res.status(204).send("Nenhuma esperiência por aqui :(");
                 }
             }
         ).catch(
